@@ -23,7 +23,7 @@ const Upload = () => {
 
       axios
       .post(
-        `${baseUrl}/fetch/`,
+        `${baseUrl}/fetch/`,formData,
         {
           // headers: {
           //   Authorization: `Token ${token}`,
