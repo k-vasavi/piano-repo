@@ -6,6 +6,7 @@ import axios from 'axios';
 // import { toast } from 'react-toastify';
 // import 'react-toastify/dist/ReactToastify.css';
 import { useFormik } from 'formik';
+import LineChart from './midiChart';
 
 const baseUrl = 'http://127.0.0.1:8000/midi';
 
@@ -14,6 +15,8 @@ const Upload = () => {
     // const [formSubmitted, setFormSubmitted] = useState(false);
     const [input, setInput] = useState();
     const [output, setOutput] = useState();
+    const [midiData1, setMidiData1 ] = useState();
+    const [midiData2, setMidiData2 ] = useState();
 
     const saveValues = (payload) => {
       console.log(payload,"payload")
@@ -33,7 +36,11 @@ const Upload = () => {
         }
       )
       .then((resp) => {
-        console.log(resp,"response");
+        console.log("response",resp.data);
+        console.log("pitches1",resp.data.pitches1);
+        console.log("pitches2",resp.data.pitches2);
+        setMidiData1(resp.data.pitches1);
+        setMidiData2(resp.data.pitches2);
       });
     }
 
@@ -76,6 +83,7 @@ const Upload = () => {
       const handleSaveClick = () => {
         console.log("clicked");
         saveValues({input:input,output:output});
+        // <LineChart data1={midiData1} data2={midiData2} ></LineChart>
         // setFormSubmitted(true);
         // formik.validateForm().then((errors) => {
         //   if (Object.keys(errors).length === 0) {
@@ -132,6 +140,11 @@ const Upload = () => {
                 </Button>
             </div>
             </Form>
+            {
+              (midiData1&&midiData2)?<LineChart data1={midiData1} data2={midiData2} ></LineChart>:""
+            }
+            {/* <LineChart></LineChart> */}
+
         </div>
     );
 }
